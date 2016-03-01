@@ -51,6 +51,8 @@ public class MapsActivity extends FragmentActivity {
 
     GPSTracker gps;
 
+    public ScoresCsvGenerator scoresCsvGenerator;
+
     Button startButton;
     private Marker bibliotekaUMCS;
     private Marker uniwersytetMedyczny;
@@ -69,6 +71,7 @@ public class MapsActivity extends FragmentActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         database = new DatabaseHelper(this);
+
     }
 
     @Override
@@ -251,10 +254,8 @@ public class MapsActivity extends FragmentActivity {
     }
 
     private void saveToCSVFile() throws IOException {
+        //tworzenie folderu, jeśli nie istnieje
         File directory = new File(Environment.getExternalStorageDirectory().toString() + "/GPSPrecision");
-
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 
         if (directory != null && !directory.exists()
                 && !directory.mkdirs()) {
@@ -267,10 +268,14 @@ public class MapsActivity extends FragmentActivity {
             }
         }
 
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+
         CSVWriter writer = new CSVWriter(new FileWriter("/storage/emulated/0/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
 
         List<String[]> data = new ArrayList<String[]>();
         List<MyMarker> makrersToCSV = database.getMarkersForTest();
+        data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc" });
         for (MyMarker myMarker : makrersToCSV) {
             data.add(new String[]{
                     myMarker.getName(),
@@ -278,11 +283,8 @@ public class MapsActivity extends FragmentActivity {
                     String.valueOf(myMarker.getLongitude())
             });
         }
-
         writer.writeAll(data);
-
         writer.close();
-
     }
 
     private void setUpMap() {
