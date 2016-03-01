@@ -238,8 +238,8 @@ public class MapsActivity extends FragmentActivity {
             currentLocation.setLongitude(longitude);
 
             Location markerLoc = new Location("Lokalizacja markera");
-            markerLoc.setLatitude(marker._latitude);
-            markerLoc.setLongitude(marker._longitude);
+            markerLoc.setLatitude(marker.getLatitude());
+            markerLoc.setLongitude(marker.getLongitude());
 
             float distanceTo = currentLocation.distanceTo(markerLoc);
 
