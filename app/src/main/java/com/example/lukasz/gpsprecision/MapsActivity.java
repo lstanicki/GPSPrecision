@@ -290,7 +290,7 @@ public class MapsActivity extends FragmentActivity {
 
         List<String[]> data = new ArrayList<String[]>();
         List<MyMarker> makrersToCSV = database.getMarkersForTest();
-        data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc"});
+        data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc", "Odleglosc"});
         for (MyMarker myMarker : makrersToCSV) {
             data.add(new String[]{
                     myMarker.getName(),
