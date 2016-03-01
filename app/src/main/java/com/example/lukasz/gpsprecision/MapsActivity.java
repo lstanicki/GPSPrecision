@@ -51,8 +51,6 @@ public class MapsActivity extends FragmentActivity {
 
     GPSTracker gps;
 
-    public ScoresCsvGenerator scoresCsvGenerator;
-
     Button startButton;
     private Marker bibliotekaUMCS;
     private Marker uniwersytetMedyczny;
