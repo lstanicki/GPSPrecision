@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GPSPrecision</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_handler">Handler</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_network">NetworkActivity</string>
+    <string name="title_activity_maps">GPSprecision</string>
+    <string name="title_activity_test">TestActivity</string>
+</resources>

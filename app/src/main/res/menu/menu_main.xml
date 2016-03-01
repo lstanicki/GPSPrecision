@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.lukasz.gpsprecision.MapsActivity">
+
+    <item
+        android:id="@+id/startTest"
+        android:title="Zacznij test" />
+    <item
+        android:id="@+id/calculateDistance"
+        android:title="Przelicz odległość" />
+    <item
+        android:id="@+id/endTest"
+        android:title="Zakończ test" />
+    <item
+        android:id="@+id/saveResults"
+        android:title="Zapisz wyniki" />
+    <item
+        android:id="@+id/showAllMarkers"
+        android:title="Pokaż wszystkie punkty" />
+    <item
+        android:id="@+id/clearMap"
+        android:title="Wyczyść mapę" />
+</menu>
