@@ -41,7 +41,10 @@ public class MapsActivity extends FragmentActivity {
     public ArrayList<Marker> markerList;
     View rootView;
     GPSTracker gps;
+    NetworkTracker network;
     Button btnShowLocation;
+    Button btnShowNetworkLocation;
+
     double latitude = 0;
     double longitude = 0;
     private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
@@ -62,7 +65,7 @@ public class MapsActivity extends FragmentActivity {
         dataTest = new ArrayList<String[]>();
 
         //lokalizacja z gps
-        btnShowLocation = (Button) findViewById(R.id.centerButton);
+        btnShowLocation = (Button) findViewById(R.id.GPSButton);
         btnShowLocation.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -76,7 +79,7 @@ public class MapsActivity extends FragmentActivity {
                             "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
                                     + longitude, Toast.LENGTH_LONG).show();
                     dataTest.add(new String[]{
-                            "Marker",
+                            "Lozalizacja z GPS",
                             String.valueOf(latitude),
                             String.valueOf(longitude)
                     });
@@ -87,6 +90,31 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
+        btnShowNetworkLocation = (Button) findViewById(R.id.networkButton);
+        btnShowNetworkLocation.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                network = new NetworkTracker(MapsActivity.this);
+
+                if (network.canGetLocation()) {
+                    double latitude = network.getLatitude();
+                    double longitude = network.getLongitude();
+
+                    Toast.makeText(getApplicationContext(),
+                            "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
+                                    + longitude, Toast.LENGTH_LONG).show();
+                    dataTest.add(new String[]{
+                            "Lokalizacja z sieci",
+                            String.valueOf(latitude),
+                            String.valueOf(longitude)
+                    });
+
+                } else {
+                    //gps.showGPSAlert();
+                }
+            }
+        });
     }
 
     @Override
@@ -186,17 +214,6 @@ public class MapsActivity extends FragmentActivity {
         if (view.getId() == R.id.zoomOutButton) {
             mMap.animateCamera(CameraUpdateFactory.zoomOut());
         }
-    }
-
-    public void onCenter(View view) {
-        gps = new GPSTracker(MapsActivity.this);
-
-        if (gps.canGetLocation()) {
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-        }
-        LatLng myLoc = new LatLng(latitude, longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 17));
     }
 
 
@@ -308,22 +325,22 @@ public class MapsActivity extends FragmentActivity {
     }
 
     private void setUpMap() {
-        gps = new GPSTracker(MapsActivity.this);
+/*        gps = new GPSTracker(MapsActivity.this);
 
         double latitude = 0;
-        double longitude = 0;
+        double longitude = 0;*/
 
         mMap.setMyLocationEnabled(true);
 
-        if (gps.canGetLocation()) {
+/*        if (gps.canGetLocation()) {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
         }
 
-        LatLng myLoc = new LatLng(latitude, longitude);
+        LatLng myLoc = new LatLng(latitude, longitude);*/
 
         //ustawia przy wlaczeniu aplikacji na punkt w ktorym jestesmy
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
 
         //addMarkers();
     }
