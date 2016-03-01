@@ -86,11 +86,21 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="20dp"
                 android:layout_height="100dp"
-                android:id="@+id/centerButton"
+                android:id="@+id/GPSButton"
                 android:background="@drawable/menu_styles"
                 android:textColor="@color/White"
                 android:onClick="getAllMarkers"
-                android:text="C" />
+                android:text="G" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="100dp"
+                android:id="@+id/networkButton"
+                android:background="@drawable/menu_styles"
+                android:textColor="@color/White"
+                android:onClick="getAllMarkers"
+                android:text="N" />
         </LinearLayout>
 
 
