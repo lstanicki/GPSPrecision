@@ -2,20 +2,19 @@ package com.example.lukasz.gpsprecision;
 
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.GpsStatus;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -34,31 +33,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class MapsActivity extends FragmentActivity {
     public DatabaseHelper database;
-
-    private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
-
-    private GoogleApiClient client;
-
+    public ArrayList<Marker> markerList;
     View rootView;
-
     GPSTracker gps;
-
-    Button startButton;
-    private Marker bibliotekaUMCS;
-    private Marker uniwersytetMedyczny;
-
+    Button btnShowLocation;
     double latitude = 0;
     double longitude = 0;
-
-    public ArrayList<Marker> markerList;
+    private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
+    private GoogleApiClient client;
+    private Marker bibliotekaUMCS;
+    private Marker uniwersytetMedyczny;
+    List<String[]> dataTest = null;
 
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +59,33 @@ public class MapsActivity extends FragmentActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         database = new DatabaseHelper(this);
+        dataTest = new ArrayList<String[]>();
+
+        //lokalizacja z gps
+        btnShowLocation = (Button) findViewById(R.id.centerButton);
+        btnShowLocation.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                gps = new GPSTracker(MapsActivity.this);
+
+                if (gps.canGetLocation()) {
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    Toast.makeText(getApplicationContext(),
+                            "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
+                                    + longitude, Toast.LENGTH_LONG).show();
+                    dataTest.add(new String[]{
+                            "Marker",
+                            String.valueOf(latitude),
+                            String.valueOf(longitude)
+                    });
+
+                } else {
+                    gps.showGPSAlert();
+                }
+            }
+        });
 
     }
 
@@ -255,6 +272,9 @@ public class MapsActivity extends FragmentActivity {
         //tworzenie folderu, jeśli nie istnieje
         File directory = new File(Environment.getExternalStorageDirectory().toString() + "/GPSPrecision");
 
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+
         if (directory != null && !directory.exists()
                 && !directory.mkdirs()) {
             try {
@@ -266,14 +286,11 @@ public class MapsActivity extends FragmentActivity {
             }
         }
 
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-
         CSVWriter writer = new CSVWriter(new FileWriter("/storage/emulated/0/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
 
         List<String[]> data = new ArrayList<String[]>();
         List<MyMarker> makrersToCSV = database.getMarkersForTest();
-        data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc" });
+        data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc"});
         for (MyMarker myMarker : makrersToCSV) {
             data.add(new String[]{
                     myMarker.getName(),
@@ -281,7 +298,12 @@ public class MapsActivity extends FragmentActivity {
                     String.valueOf(myMarker.getLongitude())
             });
         }
+        data.add(new String[]{"Test"});
         writer.writeAll(data);
+
+        if(dataTest != null) {
+            writer.writeAll(dataTest);
+        }
         writer.close();
     }
 
@@ -301,7 +323,7 @@ public class MapsActivity extends FragmentActivity {
         LatLng myLoc = new LatLng(latitude, longitude);
 
         //ustawia przy wlaczeniu aplikacji na punkt w ktorym jestesmy
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
 
         //addMarkers();
     }
@@ -329,6 +351,7 @@ public class MapsActivity extends FragmentActivity {
     @Override
     public void onStop() {
         super.onStop();
+        //gps.stopUsingGPS();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
