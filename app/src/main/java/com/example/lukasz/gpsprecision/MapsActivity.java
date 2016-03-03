@@ -1,5 +1,6 @@
 package com.example.lukasz.gpsprecision;
 
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.GpsStatus;
@@ -23,6 +24,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -50,7 +52,7 @@ public class MapsActivity extends FragmentActivity {
     double longitude = 0;
     private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
     private GoogleApiClient client;
-    List<String[]> dataTest = null;
+    List<String[]> markersForTest = null;
 
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class MapsActivity extends FragmentActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         database = new DatabaseHelper(this);
-        dataTest = new ArrayList<String[]>();
+        markersForTest = new ArrayList<String[]>();
 
         //lokalizacja z gps
         btnShowLocation = (Button) findViewById(R.id.GPSButton);
@@ -77,7 +79,7 @@ public class MapsActivity extends FragmentActivity {
                     Toast.makeText(getApplicationContext(),
                             "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
                                     + longitude, Toast.LENGTH_LONG).show();
-                    dataTest.add(new String[]{
+                    markersForTest.add(new String[]{
                             "Lozalizacja z GPS",
                             String.valueOf(latitude),
                             String.valueOf(longitude)
@@ -103,7 +105,7 @@ public class MapsActivity extends FragmentActivity {
                     Toast.makeText(getApplicationContext(),
                             "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
                                     + longitude, Toast.LENGTH_LONG).show();
-                    dataTest.add(new String[]{
+                    markersForTest.add(new String[]{
                             "Lokalizacja z sieci",
                             String.valueOf(latitude),
                             String.valueOf(longitude)
@@ -252,7 +254,8 @@ public class MapsActivity extends FragmentActivity {
                     .position(latLng)
                     .title(myMarker.getName())
                     .snippet("Współrzędne: " + myMarker.getLatitude() + ", " + myMarker.getLongitude())
-                    .anchor(0.5f, 0.5f);
+                    .anchor(0.5f, 0.5f)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_black_36dp));
 
             mMap.addMarker(marker);
         }
@@ -303,6 +306,7 @@ public class MapsActivity extends FragmentActivity {
         }
 
         CSVWriter writer = new CSVWriter(new FileWriter("/storage/emulated/0/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
+        //CSVWriter writer = new CSVWriter(new FileWriter("/storage/extSdCard/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
 
         List<String[]> data = new ArrayList<String[]>();
         List<MyMarker> makrersToCSV = database.getMarkersForTest();
@@ -317,8 +321,8 @@ public class MapsActivity extends FragmentActivity {
         data.add(new String[]{"Test"});
         writer.writeAll(data);
 
-        if(dataTest != null) {
-            writer.writeAll(dataTest);
+        if(markersForTest != null) {
+            writer.writeAll(markersForTest);
         }
         writer.close();
     }

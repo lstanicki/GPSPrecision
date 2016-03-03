@@ -19,5 +19,6 @@
         android:title="Pokaż wszystkie punkty" />
     <item
         android:id="@+id/clearMap"
+
         android:title="Wyczyść mapę" />
 </menu>

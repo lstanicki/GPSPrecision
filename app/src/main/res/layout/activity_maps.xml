@@ -92,6 +92,7 @@
                 android:onClick="getAllMarkers"
                 android:text="G" />
 
+
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="20dp"
