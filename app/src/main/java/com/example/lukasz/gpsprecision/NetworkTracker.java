@@ -18,10 +18,7 @@ import android.widget.Toast;
 public class NetworkTracker extends Service implements LocationListener {
 	private final Context context;
 
-	boolean isGPSEnabled = false;
 	boolean isNetworkEnabled = false;
-	boolean isWifiEnabled = false;
-	boolean isMobileEnabled = false;
 	boolean canGetLocation = false;
 
 	private Location location;
@@ -33,7 +30,6 @@ public class NetworkTracker extends Service implements LocationListener {
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; //1 minuta
 
 	protected LocationManager locationManager;
-	protected ConnectivityManager connectivityManager;
 
 	public NetworkTracker(Context context) {
 		this.context = context;
@@ -43,8 +39,6 @@ public class NetworkTracker extends Service implements LocationListener {
 	public Location getNetworkLocation() {
 		try {
 			locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-
-			isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
 			isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 

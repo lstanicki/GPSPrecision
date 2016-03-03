@@ -42,6 +42,7 @@ public class MapsActivity extends FragmentActivity {
     View rootView;
     GPSTracker gps;
     NetworkTracker network;
+    CustomLocationManager customLocation;
     Button btnShowLocation;
     Button btnShowNetworkLocation;
 
@@ -49,8 +50,6 @@ public class MapsActivity extends FragmentActivity {
     double longitude = 0;
     private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
     private GoogleApiClient client;
-    private Marker bibliotekaUMCS;
-    private Marker uniwersytetMedyczny;
     List<String[]> dataTest = null;
 
     //@Override
@@ -263,9 +262,9 @@ public class MapsActivity extends FragmentActivity {
         List<MyMarker> markers = database.getAllMarkers();
 
         for (MyMarker marker : markers) {
-            if (gps.canGetLocation()) {
-                latitude = gps.getLatitude();
-                longitude = gps.getLongitude();
+            if (customLocation.canGetLocation()) {
+                latitude = customLocation.getLatitude();
+                longitude = customLocation.getLongitude();
             }
 
             Location currentLocation = new Location("Moja Lokalizacja");
@@ -325,22 +324,22 @@ public class MapsActivity extends FragmentActivity {
     }
 
     private void setUpMap() {
-/*        gps = new GPSTracker(MapsActivity.this);
+        customLocation = new CustomLocationManager(MapsActivity.this);
 
         double latitude = 0;
-        double longitude = 0;*/
+        double longitude = 0;
 
         mMap.setMyLocationEnabled(true);
 
-/*        if (gps.canGetLocation()) {
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
+        if (customLocation.canGetLocation()) {
+            latitude = customLocation.getLatitude();
+            longitude = customLocation.getLongitude();
         }
 
-        LatLng myLoc = new LatLng(latitude, longitude);*/
+        LatLng myLoc = new LatLng(latitude, longitude);
 
         //ustawia przy wlaczeniu aplikacji na punkt w ktorym jestesmy
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
 
         //addMarkers();
     }
