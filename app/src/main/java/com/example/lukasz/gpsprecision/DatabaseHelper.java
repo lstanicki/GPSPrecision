@@ -59,6 +59,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Kino Bajka', '51.246465', '22.544485', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Paco. Klub Sportowy', '51.235040', '22.542761', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Statoil', '51.250546', '22.524138', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Sklep Biegacza Lublin', '51.255288', '22.562971', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Shell', '51.253525', '22.562052', NULL)");
     }
 
     @Override
