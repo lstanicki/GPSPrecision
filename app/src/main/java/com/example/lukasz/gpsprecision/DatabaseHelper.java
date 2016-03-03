@@ -61,6 +61,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Statoil', '51.250546', '22.524138', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Sklep Biegacza Lublin', '51.255288', '22.562971', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Shell', '51.253525', '22.562052', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'KFC', '51.247481', '22.551232', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Centrum Brytyjskie UMCS', '51.252969', '22.531761', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Urząd Pocztowy Lublin 52', '51.239654', '22.512233', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Lubelski Rower Miejski 6936', '51.238362', '22.528986', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Kino Grażyna', '51.240626', '22.524715', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Przedszkole nr 49', '51.233916', '22.527881', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Lukoil', '51.225771', '22.525099', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Instytut Informatyki. Politechnika Lubelska', '51.235604', '22.552832', NULL)");
     }
 
     @Override
