@@ -61,8 +61,7 @@ public class NetworkTracker extends Service implements LocationListener {
 							MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 
 					if (locationManager != null) {
-						location = locationManager
-								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+						location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
 						if (location != null) {
 
