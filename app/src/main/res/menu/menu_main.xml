@@ -1,24 +1,44 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.lukasz.gpsprecision.MapsActivity">
 
     <item
-        android:id="@+id/startTest"
-        android:title="Zacznij test" />
+        android:id="@+id/action_start_test"
+        android:orderInCategory="1"
+        android:title="Badanie dokładności"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_create_white_36dp">
+        <menu xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools">
+            <item
+                android:id="@+id/startTest"
+                android:title="@string/submenu_start_test" />
+            <item
+                android:id="@+id/endTest"
+                android:title="@string/submenu_end_test" />
+            <item
+                android:id="@+id/saveResults"
+                android:title="@string/submenu_save_results" />
+        </menu>
+    </item>
     <item
-        android:id="@+id/calculateDistance"
-        android:title="Przelicz odległość" />
-    <item
-        android:id="@+id/endTest"
-        android:title="Zakończ test" />
-    <item
-        android:id="@+id/saveResults"
-        android:title="Zapisz wyniki" />
-    <item
-        android:id="@+id/showAllMarkers"
-        android:title="Pokaż wszystkie punkty" />
-    <item
-        android:id="@+id/clearMap"
-
-        android:title="Wyczyść mapę" />
+        android:id="@+id/action_options"
+        android:orderInCategory="2"
+        android:title="Opcje"
+        app:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_preferences">
+        <menu>
+            <item
+                android:id="@+id/showAllMarkers"
+                android:title="@string/submenu_show_all_markers" />
+            <item
+                android:id="@+id/clearMap"
+                android:title="@string/submenu_clear_map" />
+            <item
+                android:id="@+id/closeApp"
+                android:title="@string/submenu_close_app" />
+        </menu>
+    </item>
 </menu>

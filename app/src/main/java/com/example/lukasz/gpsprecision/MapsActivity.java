@@ -169,14 +169,20 @@ public class MapsActivity extends FragmentActivity {
                 Toast.makeText(getApplicationContext(),
                         "Do testu zostanie wybranych 5 puntków w pobliżu Twojej obecnej lokalizacji", Toast.LENGTH_SHORT).show();
                 mMap.clear();
+                Toast.makeText(getApplicationContext(),
+                        "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
+                updateDistance();
                 getMarkersForTest();
                 return true;
-            case R.id.calculateDistance:
+/*            case R.id.calculateDistance:
                 Toast.makeText(getApplicationContext(),
-                        "Przeliczanie...", Toast.LENGTH_SHORT).show();
+                        "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
                 updateDistance();
-                return true;
+                return true;*/
             case R.id.endTest:
+                mMap.clear();
+                Toast.makeText(getApplicationContext(),
+                        "Czyszczenie mapy...", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.saveResults:
                 Toast.makeText(getApplicationContext(),
@@ -192,8 +198,12 @@ public class MapsActivity extends FragmentActivity {
                 return true;
             case R.id.clearMap:
                 Toast.makeText(getApplicationContext(),
-                        "Czyszczenie...", Toast.LENGTH_SHORT).show();
+                        "Czyszczenie mapy...", Toast.LENGTH_SHORT).show();
                 mMap.clear();
+                return true;
+            case R.id.closeApp:
+                finish();
+                System.exit(0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

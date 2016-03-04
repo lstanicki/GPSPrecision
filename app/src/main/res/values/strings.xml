@@ -8,4 +8,16 @@
     <string name="title_activity_network">NetworkActivity</string>
     <string name="title_activity_maps">GPSprecision</string>
     <string name="title_activity_test">TestActivity</string>
+
+    <string name="action_start_test">Przeprowadź badanie</string>
+    <string name="action_options">Opcje</string>
+
+    <string name="submenu_close_app">Zamknij aplikację</string>
+    <string name="submenu_clear_map">Wyczyść mapę</string>
+    <string name="submenu_show_all_markers">Pokaż wszystkie punkty</string>
+    <string name="submenu_save_results">Zapisz wyniki</string>
+    <string name="submenu_end_test">Zakończ test</string>
+    <string name="submenu_start_test">Zacznij test</string>
+
+
 </resources>
