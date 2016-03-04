@@ -7,9 +7,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/Black">
 
-        <EditText
+<!--        <EditText
             android:layout_width="160dp"
             android:layout_height="50dp"
             android:id="@+id/locationTextField" />
@@ -24,25 +25,51 @@
             android:layout_gravity="right"
             android:onClick="onSearch"
             android:background="@drawable/button_styles"
-            android:textColor="@color/White" />
+            android:textColor="@color/White" />-->
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:padding="5dp"
-            android:text="Zmień typ mapy"
+            android:text="Typ mapy"
             android:id="@+id/mapTypeButton"
             android:layout_gravity="right"
             android:onClick="onChangeType"
             android:background="@drawable/button_styles"
-            android:textColor="@color/White" />
+            android:textColor="@color/White"
+            android:drawableLeft="@android:drawable/ic_menu_mapmode"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="138dp"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:id="@+id/GPSButton"
+            android:background="@drawable/button_styles"
+            android:textColor="@color/White"
+            android:onClick="getAllMarkers"
+            android:text="Położenie z GPS"
+            android:drawableLeft="@android:drawable/ic_menu_mylocation"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:id="@+id/networkButton"
+            android:background="@drawable/button_styles"
+            android:textColor="@color/White"
+            android:onClick="getAllMarkers"
+            android:text="Położenie z sieci"
+            android:drawableLeft="@drawable/ic_network_wifi_white_36dp"/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:background="@color/Black">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -51,17 +78,18 @@
             android:layout_width="240dp"
             android:layout_height="565dp"
             tools:context="com.example.lukasz.gpsprecision.MapsActivity"
-            android:layout_weight="0.97" />
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/Black"
             android:orientation="vertical">
 
             <Button
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="264dp"
                 android:padding="5dp"
                 android:text="+"
                 android:id="@+id/zoomInButton"
@@ -72,8 +100,8 @@
 
             <Button
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="100dp"
+                android:layout_width="25dp"
+                android:layout_height="257dp"
                 android:padding="5dp"
                 android:text="-"
                 android:id="@+id/zoomOutButton"
@@ -82,26 +110,7 @@
                 android:background="@drawable/menu_styles"
                 android:textColor="@color/White" />
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="100dp"
-                android:id="@+id/GPSButton"
-                android:background="@drawable/menu_styles"
-                android:textColor="@color/White"
-                android:onClick="getAllMarkers"
-                android:text="G" />
 
-
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="100dp"
-                android:id="@+id/networkButton"
-                android:background="@drawable/menu_styles"
-                android:textColor="@color/White"
-                android:onClick="getAllMarkers"
-                android:text="N" />
         </LinearLayout>
 
 

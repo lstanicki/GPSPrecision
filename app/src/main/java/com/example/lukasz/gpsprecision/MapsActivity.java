@@ -124,7 +124,7 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
     }
 
-    public void onSearch(View view) {
+/*    public void onSearch(View view) {
 
         EditText locationTextField = (EditText) findViewById(R.id.locationTextField);
         String location = locationTextField.getText().toString();
@@ -144,7 +144,7 @@ public class MapsActivity extends FragmentActivity {
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
         }
-    }
+    }*/
 
     public void onChangeType(View view) {
         if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
