@@ -76,14 +76,18 @@ public class MapsActivity extends FragmentActivity {
                     double latitude = gps.getLatitude();
                     double longitude = gps.getLongitude();
 
-                    Toast.makeText(getApplicationContext(),
-                            "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
-                                    + longitude, Toast.LENGTH_LONG).show();
-                    markersForTest.add(new String[]{
-                            "Lozalizacja z GPS",
-                            String.valueOf(latitude),
-                            String.valueOf(longitude)
-                    });
+                    if (latitude != 0 && longitude != 0) {
+                        Toast.makeText(getApplicationContext(),
+                                "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
+                                        + longitude, Toast.LENGTH_LONG).show();
+                        markersForTest.add(new String[]{
+                                "Lozalizacja z GPS",
+                                String.valueOf(latitude),
+                                String.valueOf(longitude)
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Nie można odczytać położenia z GPS", Toast.LENGTH_LONG).show();
+                    }
 
                 } else {
                     gps.showGPSAlert();
@@ -102,14 +106,18 @@ public class MapsActivity extends FragmentActivity {
                     double latitude = network.getLatitude();
                     double longitude = network.getLongitude();
 
-                    Toast.makeText(getApplicationContext(),
-                            "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
-                                    + longitude, Toast.LENGTH_LONG).show();
-                    markersForTest.add(new String[]{
-                            "Lokalizacja z sieci",
-                            String.valueOf(latitude),
-                            String.valueOf(longitude)
-                    });
+                    if (latitude != 0 && longitude != 0) {
+                        Toast.makeText(getApplicationContext(),
+                                "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
+                                        + longitude, Toast.LENGTH_LONG).show();
+                        markersForTest.add(new String[]{
+                                "Lokalizacja z sieci",
+                                String.valueOf(latitude),
+                                String.valueOf(longitude)
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Nie można odczytać położenia z sieci", Toast.LENGTH_LONG).show();
+                    }
 
                 } else {
                     //gps.showGPSAlert();
