@@ -1,4 +1,4 @@
-package com.example.lukasz.gpsprecision;
+package pl.pollub.gpsprecision;;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,12 +1,6 @@
-package com.example.lukasz.gpsprecision;
+package pl.pollub.gpsprecision;
 
-import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.GpsStatus;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,8 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
+
+import pl.pollub.gpsprecision.CustomLocationManager;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -42,8 +37,8 @@ public class MapsActivity extends FragmentActivity {
     public DatabaseHelper database;
     public ArrayList<Marker> markerList;
     View rootView;
-    GPSTracker gps;
-    NetworkTracker network;
+    pl.pollub.gpsprecision.GPSTracker gps;
+    pl.pollub.gpsprecision.NetworkTracker network;
     CustomLocationManager customLocation;
     Button btnShowLocation;
     Button btnShowNetworkLocation;
@@ -62,7 +57,7 @@ public class MapsActivity extends FragmentActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        database = new DatabaseHelper(this);
+        database = new pl.pollub.gpsprecision.DatabaseHelper(this);
         markersForTest = new ArrayList<String[]>();
 
         //lokalizacja z gps
@@ -70,7 +65,7 @@ public class MapsActivity extends FragmentActivity {
         btnShowLocation.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                gps = new GPSTracker(MapsActivity.this);
+                gps = new pl.pollub.gpsprecision.GPSTracker(MapsActivity.this);
 
                 if (gps.canGetLocation()) {
                     double latitude = gps.getLatitude();
@@ -100,7 +95,7 @@ public class MapsActivity extends FragmentActivity {
 
             @Override
             public void onClick(View v) {
-                network = new NetworkTracker(MapsActivity.this);
+                network = new pl.pollub.gpsprecision.NetworkTracker(MapsActivity.this);
 
                 if (network.canGetLocation()) {
                     double latitude = network.getLatitude();
@@ -247,9 +242,9 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void getAllMarkers() {
-        List<MyMarker> markers = database.getAllMarkers();
+        List<pl.pollub.gpsprecision.MyMarker> markers = database.getAllMarkers();
 
-        for (MyMarker myMarker : markers) {
+        for (pl.pollub.gpsprecision.MyMarker myMarker : markers) {
             LatLng latLng = new LatLng(myMarker.getLatitude(), myMarker.getLongitude());
 
             MarkerOptions marker = new MarkerOptions()
@@ -263,9 +258,9 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void getMarkersForTest() {
-        List<MyMarker> markersFortest = database.getMarkersForTest();
+        List<pl.pollub.gpsprecision.MyMarker> markersFortest = database.getMarkersForTest();
 
-        for (MyMarker myMarker : markersFortest) {
+        for (pl.pollub.gpsprecision.MyMarker myMarker : markersFortest) {
             LatLng latLng = new LatLng(myMarker.getLatitude(), myMarker.getLongitude());
 
             MarkerOptions marker = new MarkerOptions()
@@ -280,9 +275,9 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void updateDistance() {
-        List<MyMarker> markers = database.getAllMarkers();
+        List<pl.pollub.gpsprecision.MyMarker> markers = database.getAllMarkers();
 
-        for (MyMarker marker : markers) {
+        for (pl.pollub.gpsprecision.MyMarker marker : markers) {
             if (customLocation.canGetLocation()) {
                 latitude = customLocation.getLatitude();
                 longitude = customLocation.getLongitude();
@@ -327,9 +322,9 @@ public class MapsActivity extends FragmentActivity {
         //CSVWriter writer = new CSVWriter(new FileWriter("/storage/extSdCard/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
 
         List<String[]> data = new ArrayList<String[]>();
-        List<MyMarker> makrersToCSV = database.getMarkersForTest();
+        List<pl.pollub.gpsprecision.MyMarker> makrersToCSV = database.getMarkersForTest();
         data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc", "Odleglosc"});
-        for (MyMarker myMarker : makrersToCSV) {
+        for (pl.pollub.gpsprecision.MyMarker myMarker : makrersToCSV) {
             data.add(new String[]{
                     myMarker.getName(),
                     String.valueOf(myMarker.getLatitude()),

@@ -1,4 +1,4 @@
-package com.example.lukasz.gpsprecision;
+package pl.pollub.gpsprecision;
 
 public class MyMarker {
     int _id;
