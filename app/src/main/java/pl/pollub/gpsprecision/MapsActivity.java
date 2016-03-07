@@ -40,8 +40,9 @@ public class MapsActivity extends FragmentActivity {
     GPSTracker gps;
     NetworkTracker network;
     CustomLocationManager customLocation;
-    Button btnShowLocation;
+    Button btnShowGPSLocation;
     Button btnShowNetworkLocation;
+    Button btnShowInternetLocation;
 
     double latitude = 0;
     double longitude = 0;
@@ -61,8 +62,8 @@ public class MapsActivity extends FragmentActivity {
         markersForTest = new ArrayList<String[]>();
 
         //lokalizacja z gps
-        btnShowLocation = (Button) findViewById(R.id.GPSButton);
-        btnShowLocation.setOnClickListener(new View.OnClickListener() {
+        btnShowGPSLocation = (Button) findViewById(R.id.GPSButton);
+        btnShowGPSLocation.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 gps = new pl.pollub.gpsprecision.GPSTracker(MapsActivity.this);
@@ -90,8 +91,40 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
+        //lokalizacja z sieci komórkowej
         btnShowNetworkLocation = (Button) findViewById(R.id.networkButton);
         btnShowNetworkLocation.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                network = new pl.pollub.gpsprecision.NetworkTracker(MapsActivity.this);
+
+                if (network.canGetLocation()) {
+                    double latitude = network.getLatitude();
+                    double longitude = network.getLongitude();
+
+                    if (latitude != 0 && longitude != 0) {
+                        Toast.makeText(getApplicationContext(),
+                                "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
+                                        + longitude, Toast.LENGTH_LONG).show();
+                        markersForTest.add(new String[]{
+                                "Lokalizacja z sieci",
+                                String.valueOf(latitude),
+                                String.valueOf(longitude)
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Nie można odczytać położenia z sieci", Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+                    //gps.showGPSAlert();
+                }
+            }
+        });
+
+        //lokalizacja z internetu (mobliny + wifi)
+        btnShowInternetLocation = (Button) findViewById(R.id.internetButton);
+        btnShowInternetLocation.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

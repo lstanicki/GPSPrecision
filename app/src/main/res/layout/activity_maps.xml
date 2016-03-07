@@ -29,7 +29,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="100dp"
+            android:layout_width="99dp"
             android:layout_height="50dp"
             android:padding="5dp"
             android:text="Typ mapy"
@@ -42,27 +42,36 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="138dp"
+            android:layout_width="84dp"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/GPSButton"
             android:background="@drawable/button_styles"
             android:textColor="@color/White"
-            android:onClick="getAllMarkers"
-            android:text="Położenie z GPS"
-            android:drawableLeft="@android:drawable/ic_menu_mylocation"/>
+            android:drawableLeft="@drawable/ic_gps_fixed_white_36dp"
+            android:text="GPS"/>
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="83dp"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/networkButton"
             android:background="@drawable/button_styles"
             android:textColor="@color/White"
-            android:onClick="getAllMarkers"
-            android:text="Położenie z sieci"
-            android:drawableLeft="@drawable/ic_network_wifi_white_36dp"/>
+            android:drawableLeft="@drawable/ic_network_cell_white_36dp"
+            android:text="Sieć"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:id="@+id/internetButton"
+            android:background="@drawable/button_styles"
+            android:textColor="@color/White"
+            android:drawableLeft="@drawable/ic_network_wifi_white_36dp"
+            android:text="Internet"/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
