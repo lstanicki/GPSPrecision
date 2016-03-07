@@ -16,9 +16,6 @@
                 android:id="@+id/startTest"
                 android:title="@string/submenu_start_test" />
             <item
-                android:id="@+id/endTest"
-                android:title="@string/submenu_end_test" />
-            <item
                 android:id="@+id/saveResults"
                 android:title="@string/submenu_save_results" />
         </menu>

@@ -267,17 +267,12 @@ public class MapsActivity extends FragmentActivity {
         switch (item.getItemId()) {
             case R.id.startTest:
                 Toast.makeText(getApplicationContext(),
-                        "Do testu zostanie wybranych 5 puntków w pobliżu Twojej obecnej lokalizacji", Toast.LENGTH_SHORT).show();
+                        "Do testu zostanie wybranych 5 puntków w pobliżu Twojej obecnej lokalizacji", Toast.LENGTH_LONG).show();
                 mMap.clear();
                 Toast.makeText(getApplicationContext(),
                         "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
                 updateDistance();
                 getMarkersForTest();
-                return true;
-            case R.id.endTest:
-                mMap.clear();
-                Toast.makeText(getApplicationContext(),
-                        "Czyszczenie mapy...", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.saveResults:
                 Toast.makeText(getApplicationContext(),
@@ -402,7 +397,7 @@ public class MapsActivity extends FragmentActivity {
             }
         }
 
-        CSVWriter writer = new CSVWriter(new FileWriter("/storage/emulated/0/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
+        CSVWriter writer = new CSVWriter(new FileWriter("/storage/emulated/0/GPSPrecision/wyniki_z_" + dateFormat.format(date) + ".csv"), ',');
         //CSVWriter writer = new CSVWriter(new FileWriter("/storage/extSdCard/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
 
         List<String[]> data = new ArrayList<String[]>();
@@ -485,4 +480,9 @@ public class MapsActivity extends FragmentActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
+    public void onPause() {
+        super.onPause();
+    }
+
 }
