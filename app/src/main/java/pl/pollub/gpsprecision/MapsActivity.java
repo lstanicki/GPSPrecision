@@ -80,11 +80,29 @@ public class MapsActivity extends FragmentActivity {
                         Toast.makeText(getApplicationContext(),
                                 "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
                                         + longitude, Toast.LENGTH_LONG).show();
-                        markersForTest.add(new String[]{
-                                "Lokalizacja z GPS",
-                                String.valueOf(latitude),
-                                String.valueOf(longitude)
-                        });
+                        List<MyMarker> markers = database.getNearestMarker();
+
+                        for (MyMarker marker : markers) {
+
+                            Location nearestMarker = new Location("Lokalizacja z testu");
+                            nearestMarker.setLatitude(marker.getLatitude());
+                            nearestMarker.setLongitude(marker.getLongitude());
+
+                            Location locationFromInternet = new Location("Lokalizacja z internetu");
+                            locationFromInternet.setLatitude(latitude);
+                            locationFromInternet.setLongitude(longitude);
+
+                            float distanceTo = nearestMarker.distanceTo(locationFromInternet);
+
+                            marker.setDistanceFrom((int) distanceTo);
+
+                            markersForTest.add(new String[]{
+                                    "Lokalizacja z GPS",
+                                    String.valueOf(latitude),
+                                    String.valueOf(longitude),
+                                    String.valueOf(marker.getDistanceFrom() + "m")
+                            });
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Nie można odczytać położenia z GPS", Toast.LENGTH_LONG).show();
                     }
@@ -104,6 +122,8 @@ public class MapsActivity extends FragmentActivity {
                 network = new NetworkTracker(MapsActivity.this);
 
                 if (network.canGetLocation()) {
+                    updateDistance();
+
                     double latitude = network.getLatitude();
                     double longitude = network.getLongitude();
 
@@ -111,11 +131,30 @@ public class MapsActivity extends FragmentActivity {
                         Toast.makeText(getApplicationContext(),
                                 "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
                                         + longitude, Toast.LENGTH_LONG).show();
-                        markersForTest.add(new String[]{
-                                "Lokalizacja z sieci",
-                                String.valueOf(latitude),
-                                String.valueOf(longitude)
-                        });
+
+                        List<MyMarker> markers = database.getNearestMarker();
+
+                        for (MyMarker marker : markers) {
+
+                            Location nearestMarker = new Location("Lokalizacja z testu");
+                            nearestMarker.setLatitude(marker.getLatitude());
+                            nearestMarker.setLongitude(marker.getLongitude());
+
+                            Location locationFromInternet = new Location("Lokalizacja z internetu");
+                            locationFromInternet.setLatitude(latitude);
+                            locationFromInternet.setLongitude(longitude);
+
+                            float distanceTo = nearestMarker.distanceTo(locationFromInternet);
+
+                            marker.setDistanceFrom((int) distanceTo);
+
+                            markersForTest.add(new String[]{
+                                    "Lokalizacja z sieci",
+                                    String.valueOf(latitude),
+                                    String.valueOf(longitude),
+                                    String.valueOf(marker.getDistanceFrom() + "m")
+                            });
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Nie można odczytać położenia z sieci", Toast.LENGTH_LONG).show();
                     }
@@ -135,6 +174,8 @@ public class MapsActivity extends FragmentActivity {
                 internet = new InternetTracker(MapsActivity.this);
 
                 if (internet.canGetLocation()) {
+                    updateDistance();
+
                     double latitude = internet.getLatitude();
                     double longitude = internet.getLongitude();
 
@@ -143,11 +184,29 @@ public class MapsActivity extends FragmentActivity {
                                 "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
                                         + longitude, Toast.LENGTH_LONG).show();
 
-                        markersForTest.add(new String[]{
-                                "Lokalizacja z internetu",
-                                String.valueOf(latitude),
-                                String.valueOf(longitude)
-                        });
+                        List<MyMarker> markers = database.getNearestMarker();
+
+                        for (MyMarker marker : markers) {
+
+                            Location nearestMarker = new Location("Lokalizacja z testu");
+                            nearestMarker.setLatitude(marker.getLatitude());
+                            nearestMarker.setLongitude(marker.getLongitude());
+
+                            Location locationFromInternet = new Location("Lokalizacja z internetu");
+                            locationFromInternet.setLatitude(latitude);
+                            locationFromInternet.setLongitude(longitude);
+
+                            float distanceTo = nearestMarker.distanceTo(locationFromInternet);
+
+                            marker.setDistanceFrom((int) distanceTo);
+
+                            markersForTest.add(new String[]{
+                                    "Lokalizacja z internetu",
+                                    String.valueOf(latitude),
+                                    String.valueOf(longitude),
+                                    String.valueOf(marker.getDistanceFrom() + "m")
+                            });
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Nie można odczytać położenia z internetu", Toast.LENGTH_LONG).show();
                     }

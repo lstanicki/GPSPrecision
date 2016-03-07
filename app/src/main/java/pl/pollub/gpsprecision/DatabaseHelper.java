@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.android.gms.maps.model.Marker;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,6 +122,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<MyMarker> markerList = new ArrayList<MyMarker>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY DLUGOSC_OD LIMIT 5";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                MyMarker myMarker = new MyMarker("Krzemieniecka 1", 51.254458, 22.579823, 1);
+                myMarker.setID(Integer.parseInt(cursor.getString(0)));
+                myMarker.setName(cursor.getString(1));
+                myMarker.setLatitude(cursor.getDouble(2));
+                myMarker.setLongitude(cursor.getDouble(3));
+                myMarker.setDistanceFrom(Integer.parseInt(cursor.getString(4)));
+                markerList.add(myMarker);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return markerList;
+    }
+
+    public List<MyMarker>  getNearestMarker() {
+        List<MyMarker> markerList = new ArrayList<MyMarker>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY DLUGOSC_OD LIMIT 1";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
