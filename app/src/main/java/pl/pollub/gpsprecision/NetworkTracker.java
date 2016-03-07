@@ -1,13 +1,17 @@
 package pl.pollub.gpsprecision;
 
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.Settings;
+import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
 public class NetworkTracker extends Service implements LocationListener {
@@ -94,6 +98,34 @@ public class NetworkTracker extends Service implements LocationListener {
 
 	public boolean canGetLocation() {
 		return this.canGetLocation;
+	}
+
+	public void showNetworkAlert() {
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(context, android.R.style.Theme_Holo_Wallpaper));
+
+		alertDialog.setTitle("GPS wyłączony");
+
+		alertDialog.setMessage("Sieć komórkowa niedostępna." +
+				"Czy chcesz sprawdzić ustawienia teraz?");
+
+		alertDialog.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				context.startActivity(intent);
+			}
+		});
+
+		alertDialog.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		alertDialog.show();
 	}
 
 

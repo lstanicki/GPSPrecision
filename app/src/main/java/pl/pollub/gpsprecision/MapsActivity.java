@@ -1,5 +1,7 @@
 package pl.pollub.gpsprecision;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity {
     public DatabaseHelper database;
@@ -39,8 +42,9 @@ public class MapsActivity extends FragmentActivity {
     View rootView;
     GPSTracker gps;
     NetworkTracker network;
+    InternetTracker internet;
     CustomLocationManager customLocation;
-    Button btnShowGPSLocation;
+    Button btnShowLocation;
     Button btnShowNetworkLocation;
     Button btnShowInternetLocation;
 
@@ -62,11 +66,11 @@ public class MapsActivity extends FragmentActivity {
         markersForTest = new ArrayList<String[]>();
 
         //lokalizacja z gps
-        btnShowGPSLocation = (Button) findViewById(R.id.GPSButton);
-        btnShowGPSLocation.setOnClickListener(new View.OnClickListener() {
+        btnShowLocation = (Button) findViewById(R.id.GPSButton);
+        btnShowLocation.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                gps = new pl.pollub.gpsprecision.GPSTracker(MapsActivity.this);
+                gps = new GPSTracker(MapsActivity.this);
 
                 if (gps.canGetLocation()) {
                     double latitude = gps.getLatitude();
@@ -97,7 +101,7 @@ public class MapsActivity extends FragmentActivity {
 
             @Override
             public void onClick(View v) {
-                network = new pl.pollub.gpsprecision.NetworkTracker(MapsActivity.this);
+                network = new NetworkTracker(MapsActivity.this);
 
                 if (network.canGetLocation()) {
                     double latitude = network.getLatitude();
@@ -128,27 +132,28 @@ public class MapsActivity extends FragmentActivity {
 
             @Override
             public void onClick(View v) {
-                network = new pl.pollub.gpsprecision.NetworkTracker(MapsActivity.this);
+                internet = new InternetTracker(MapsActivity.this);
 
-                if (network.canGetLocation()) {
-                    double latitude = network.getLatitude();
-                    double longitude = network.getLongitude();
+                if (internet.canGetLocation()) {
+                    double latitude = internet.getLatitude();
+                    double longitude = internet.getLongitude();
 
                     if (latitude != 0 && longitude != 0) {
                         Toast.makeText(getApplicationContext(),
                                 "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
                                         + longitude, Toast.LENGTH_LONG).show();
+
                         markersForTest.add(new String[]{
-                                "Lokalizacja z sieci",
+                                "Lokalizacja z internetu",
                                 String.valueOf(latitude),
                                 String.valueOf(longitude)
                         });
                     } else {
-                        Toast.makeText(getApplicationContext(), "Nie można odczytać położenia z sieci", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Nie można odczytać położenia z internetu", Toast.LENGTH_LONG).show();
                     }
 
                 } else {
-                    //gps.showGPSAlert();
+                    internet.showInternetAlert();
                 }
             }
         });
