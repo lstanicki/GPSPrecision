@@ -121,7 +121,7 @@ public class MapsActivity extends FragmentActivity {
                     }
 
                 } else {
-                    //gps.showGPSAlert();
+                    network.showNetworkAlert();
                 }
             }
         });
@@ -215,11 +215,6 @@ public class MapsActivity extends FragmentActivity {
                 updateDistance();
                 getMarkersForTest();
                 return true;
-/*            case R.id.calculateDistance:
-                Toast.makeText(getApplicationContext(),
-                        "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
-                updateDistance();
-                return true;*/
             case R.id.endTest:
                 mMap.clear();
                 Toast.makeText(getApplicationContext(),
@@ -249,14 +244,6 @@ public class MapsActivity extends FragmentActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void onTestStart() {
-        updateDistance();
-        //customMarkers();
-
-        //Toast.makeText(getApplicationContext(), "Ilość dostępnych: " + markerList.size(), Toast.LENGTH_SHORT).show();
-
     }
 
     public void onZoom(View view) {
