@@ -8,8 +8,7 @@
         <!--<item name="android:windowBackground">@android:color/background_light</item>-->
         <item name="android:panelFullBackground">@drawable/menu_styles</item>
         <item name="android:panelTextAppearance">@color/DarkOrange70</item>
-        <item name="android:windowBackground">@color/DarkOrange70</item>
-        <item name="android:screenOrientation">landscape</item>
+        <item name="android:windowBackground">@color/Black</item>
     </style>
 
     <style name="FullscreenTheme" parent="MyTheme">
