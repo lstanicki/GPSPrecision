@@ -37,8 +37,8 @@ public class MapsActivity extends FragmentActivity {
     public DatabaseHelper database;
     public ArrayList<Marker> markerList;
     View rootView;
-    pl.pollub.gpsprecision.GPSTracker gps;
-    pl.pollub.gpsprecision.NetworkTracker network;
+    GPSTracker gps;
+    NetworkTracker network;
     CustomLocationManager customLocation;
     Button btnShowLocation;
     Button btnShowNetworkLocation;
