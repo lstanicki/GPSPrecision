@@ -62,7 +62,7 @@ public class MapsActivity extends FragmentActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        database = new pl.pollub.gpsprecision.DatabaseHelper(this);
+        database = new DatabaseHelper(this);
         markersForTest = new ArrayList<String[]>();
 
         //lokalizacja z gps
@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity {
                                 "Twoje położenie to -\nSzerokość: " + latitude + "\nDługość: "
                                         + longitude, Toast.LENGTH_LONG).show();
                         markersForTest.add(new String[]{
-                                "Lozalizacja z GPS",
+                                "Lokalizacja z GPS",
                                 String.valueOf(latitude),
                                 String.valueOf(longitude)
                         });
@@ -267,9 +267,9 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void getAllMarkers() {
-        List<pl.pollub.gpsprecision.MyMarker> markers = database.getAllMarkers();
+        List<MyMarker> markers = database.getAllMarkers();
 
-        for (pl.pollub.gpsprecision.MyMarker myMarker : markers) {
+        for (MyMarker myMarker : markers) {
             LatLng latLng = new LatLng(myMarker.getLatitude(), myMarker.getLongitude());
 
             MarkerOptions marker = new MarkerOptions()
@@ -283,9 +283,9 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void getMarkersForTest() {
-        List<pl.pollub.gpsprecision.MyMarker> markersFortest = database.getMarkersForTest();
+        List<MyMarker> markersFortest = database.getMarkersForTest();
 
-        for (pl.pollub.gpsprecision.MyMarker myMarker : markersFortest) {
+        for (MyMarker myMarker : markersFortest) {
             LatLng latLng = new LatLng(myMarker.getLatitude(), myMarker.getLongitude());
 
             MarkerOptions marker = new MarkerOptions()
@@ -300,9 +300,9 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void updateDistance() {
-        List<pl.pollub.gpsprecision.MyMarker> markers = database.getAllMarkers();
+        List<MyMarker> markers = database.getAllMarkers();
 
-        for (pl.pollub.gpsprecision.MyMarker marker : markers) {
+        for (MyMarker marker : markers) {
             if (customLocation.canGetLocation()) {
                 latitude = customLocation.getLatitude();
                 longitude = customLocation.getLongitude();
@@ -347,16 +347,16 @@ public class MapsActivity extends FragmentActivity {
         //CSVWriter writer = new CSVWriter(new FileWriter("/storage/extSdCard/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
 
         List<String[]> data = new ArrayList<String[]>();
-        List<pl.pollub.gpsprecision.MyMarker> makrersToCSV = database.getMarkersForTest();
+        List<MyMarker> makrersToCSV = database.getMarkersForTest();
         data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc", "Odleglosc"});
-        for (pl.pollub.gpsprecision.MyMarker myMarker : makrersToCSV) {
+        for (MyMarker myMarker : makrersToCSV) {
             data.add(new String[]{
                     myMarker.getName(),
                     String.valueOf(myMarker.getLatitude()),
                     String.valueOf(myMarker.getLongitude())
             });
         }
-        data.add(new String[]{"Test"});
+        data.add(new String[]{"Pomiary z testu"});
         writer.writeAll(data);
 
         if(markersForTest != null) {
