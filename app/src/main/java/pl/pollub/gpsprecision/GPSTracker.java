@@ -107,8 +107,7 @@ public class GPSTracker extends Service implements LocationListener {
 
 		alertDialog.setTitle("GPS wyłączony");
 
-		alertDialog.setMessage("Moduł GPS wyłączony." +
-				"Czy chcesz uruchomić go teraz?");
+		alertDialog.setMessage("Moduł GPS wyłączony. Czy chcesz uruchomić go teraz?");
 
 		alertDialog.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
 

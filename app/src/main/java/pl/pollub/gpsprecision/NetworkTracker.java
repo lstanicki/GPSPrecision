@@ -103,10 +103,9 @@ public class NetworkTracker extends Service implements LocationListener {
 	public void showNetworkAlert() {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(context, android.R.style.Theme_Holo_Wallpaper));
 
-		alertDialog.setTitle("GPS wyłączony");
+		alertDialog.setTitle("Sieć komórkowa niedostępna.");
 
-		alertDialog.setMessage("Sieć komórkowa niedostępna." +
-				"Czy chcesz sprawdzić ustawienia teraz?");
+		alertDialog.setMessage("Brak dostępu do sieci. Czy chcesz sprawdzić ustawienia teraz?");
 
 		alertDialog.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
 
