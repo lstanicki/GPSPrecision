@@ -22,8 +22,8 @@ public class CustomLocationManager extends Service implements LocationListener {
     double latitude;
     double longitude;
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
-    private static final long MIN_TIME_BW_UPDATES = 0;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;//1m
+    private static final long MIN_TIME_BW_UPDATES = 1000;//1 sekunda
 
     protected LocationManager locationManager;
 
