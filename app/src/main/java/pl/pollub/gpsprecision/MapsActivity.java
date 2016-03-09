@@ -86,6 +86,8 @@ public class MapsActivity extends ActionBarActivity {
                                         + longitude, Toast.LENGTH_LONG).show();
                         List<MyMarker> markers = database.getNearestMarker();
 
+                        updateDistance();
+
                         for (MyMarker marker : markers) {
 
                             Location nearestMarker = new Location("Lokalizacja z testu");
@@ -126,8 +128,6 @@ public class MapsActivity extends ActionBarActivity {
                 network = new NetworkTracker(MapsActivity.this);
 
                 if (network.canGetLocation()) {
-                    updateDistance();
-
                     double latitude = network.getLatitude();
                     double longitude = network.getLongitude();
 
@@ -137,6 +137,8 @@ public class MapsActivity extends ActionBarActivity {
                                         + longitude, Toast.LENGTH_LONG).show();
 
                         List<MyMarker> markers = database.getNearestMarker();
+
+                        updateDistance();
 
                         for (MyMarker marker : markers) {
 
@@ -178,9 +180,7 @@ public class MapsActivity extends ActionBarActivity {
                 internet = new InternetTracker(MapsActivity.this);
 
                 if (internet.canGetLocation()) {
-                    updateDistance();
-
-                    double latitude = internet.getLatitude();
+                     double latitude = internet.getLatitude();
                     double longitude = internet.getLongitude();
 
                     if (latitude != 0 && longitude != 0) {
@@ -189,6 +189,8 @@ public class MapsActivity extends ActionBarActivity {
                                         + longitude, Toast.LENGTH_LONG).show();
 
                         List<MyMarker> markers = database.getNearestMarker();
+
+                        updateDistance();
 
                         for (MyMarker marker : markers) {
 
@@ -360,10 +362,16 @@ public class MapsActivity extends ActionBarActivity {
     public void updateDistance() {
         List<MyMarker> markers = database.getAllMarkers();
 
+        gps = new GPSTracker(MapsActivity.this);
+        double latitude = 0;
+        double longitude = 0;
+
+        mMap.setMyLocationEnabled(true);
+
         for (MyMarker marker : markers) {
-            if (customLocation.canGetLocation()) {
-                latitude = customLocation.getLatitude();
-                longitude = customLocation.getLongitude();
+            if (gps.canGetLocation()) {
+                latitude = gps.getLatitude();
+                longitude = gps.getLongitude();
             }
 
             Location currentLocation = new Location("Moja Lokalizacja");
