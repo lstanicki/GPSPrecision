@@ -103,7 +103,7 @@ public class MapsActivity extends ActionBarActivity {
                             marker.setDistanceFrom((int) distanceTo);
 
                             markersForTest.add(new String[]{
-                                    "Lokalizacja z GPS",
+                                    "GPS",
                                     String.valueOf(latitude),
                                     String.valueOf(longitude),
                                     String.valueOf(marker.getDistanceFrom() + "m")
@@ -155,7 +155,7 @@ public class MapsActivity extends ActionBarActivity {
                             marker.setDistanceFrom((int) distanceTo);
 
                             markersForTest.add(new String[]{
-                                    "Lokalizacja z sieci",
+                                    "Sieć",
                                     String.valueOf(latitude),
                                     String.valueOf(longitude),
                                     String.valueOf(marker.getDistanceFrom() + "m")
@@ -171,7 +171,7 @@ public class MapsActivity extends ActionBarActivity {
             }
         });
 
-        //lokalizacja z internetu (mobliny + wifi)
+        //lokalizacja z internetu (mobilny + wifi)
         btnShowInternetLocation = (Button) findViewById(R.id.internetButton);
         btnShowInternetLocation.setOnClickListener(new View.OnClickListener() {
 
@@ -207,7 +207,7 @@ public class MapsActivity extends ActionBarActivity {
                             marker.setDistanceFrom((int) distanceTo);
 
                             markersForTest.add(new String[]{
-                                    "Lokalizacja z internetu",
+                                    "Internet",
                                     String.valueOf(latitude),
                                     String.valueOf(longitude),
                                     String.valueOf(marker.getDistanceFrom() + "m")

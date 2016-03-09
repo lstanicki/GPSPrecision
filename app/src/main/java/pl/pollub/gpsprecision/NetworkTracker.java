@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,15 +21,19 @@ public class NetworkTracker extends Service implements LocationListener {
 	boolean isNetworkEnabled = false;
 	boolean canGetLocation = false;
 
-	private Location location;
+	Location location;
+
+	String bestProvider;
 
 	double latitude;
 	double longitude;
 
+	Criteria criteria;
+
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;//1m
 	private static final long MIN_TIME_BW_UPDATES = 1000;//1 sekunda
 
-	protected LocationManager locationManager;
+	LocationManager locationManager;
 
 	public NetworkTracker(Context context) {
 		this.context = context;
@@ -127,11 +132,20 @@ public class NetworkTracker extends Service implements LocationListener {
 		alertDialog.show();
 	}
 
+	private void refresh() {
+		bestProvider = locationManager.getBestProvider(criteria, true);
+		location = locationManager.getLastKnownLocation(bestProvider);
+
+	}
 
 	@Override
 	public void onLocationChanged(Location location) {
+		criteria = new Criteria();
+		locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+		refresh();
 		int lat = (int) (location.getLatitude());
 		int lng = (int) (location.getLongitude());
+
 	}
 
 	@Override

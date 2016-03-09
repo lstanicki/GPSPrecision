@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -24,7 +25,10 @@ public class InternetTracker extends Service implements LocationListener {
 	boolean isNetworkEnabled = false;
 	boolean canGetLocation = false;
 
-	private Location location;
+	String bestProvider;
+	Criteria criteria;
+
+	Location location;
 
 	double latitude;
 	double longitude;
@@ -32,8 +36,7 @@ public class InternetTracker extends Service implements LocationListener {
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;//1m
 	private static final long MIN_TIME_BW_UPDATES = 1000;//1 sekunda
 
-	protected LocationManager locationManager;
-	protected ConnectivityManager connectivityManager;
+	LocationManager locationManager;
 
 	public InternetTracker(Context context) {
 		this.context = context;
@@ -51,7 +54,7 @@ public class InternetTracker extends Service implements LocationListener {
 
 			isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-			if(!isMobileInternetEnabled) {
+			if(!isMobileInternetEnabled && !isWifiInternetEnabled) {
 
 			} else {
 				this.canGetLocation = true;
@@ -137,8 +140,17 @@ public class InternetTracker extends Service implements LocationListener {
 		alertDialog.show();
 	}
 
+	private void refresh() {
+		bestProvider = locationManager.getBestProvider(criteria, true);
+		location = locationManager.getLastKnownLocation(bestProvider);
+
+	}
+
 	@Override
 	public void onLocationChanged(Location location) {
+		criteria = new Criteria();
+		locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+		refresh();
 		int lat = (int) (location.getLatitude());
 		int lng = (int) (location.getLongitude());
 	}

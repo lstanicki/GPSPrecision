@@ -32,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DISTANCE_FROM + " INTEGER" +
                 " )");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Krzemieniecka 1', '51.254458', '22.579823', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Krzemieniecka 11', '51.254244', '22.580248', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'KFC', '51.251711', '22.577230', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Lidl', '51.251402', '22.581424', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Biedronka', '51.255670', '22.580135', NULL)");
