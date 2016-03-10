@@ -86,8 +86,6 @@ public class MapsActivity extends ActionBarActivity {
                                         + longitude, Toast.LENGTH_LONG).show();
                         List<MyMarker> markers = database.getNearestMarker();
 
-                        updateDistance();
-
                         for (MyMarker marker : markers) {
 
                             Location nearestMarker = new Location("Lokalizacja z testu");
@@ -138,8 +136,6 @@ public class MapsActivity extends ActionBarActivity {
 
                         List<MyMarker> markers = database.getNearestMarker();
 
-                        updateDistance();
-
                         for (MyMarker marker : markers) {
 
                             Location nearestMarker = new Location("Lokalizacja z testu");
@@ -189,8 +185,6 @@ public class MapsActivity extends ActionBarActivity {
                                         + longitude, Toast.LENGTH_LONG).show();
 
                         List<MyMarker> markers = database.getNearestMarker();
-
-                        updateDistance();
 
                         for (MyMarker marker : markers) {
 
@@ -300,6 +294,11 @@ public class MapsActivity extends ActionBarActivity {
             case R.id.closeApp:
                 finish();
                 System.exit(0);
+                return true;
+            case R.id.action_calculate_distance:
+                updateDistance();
+                Toast.makeText(getApplicationContext(),
+                        "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
