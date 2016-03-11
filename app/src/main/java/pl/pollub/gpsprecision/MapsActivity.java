@@ -305,16 +305,6 @@ public class MapsActivity extends ActionBarActivity {
         }
     }
 
-    public void onZoom(View view) {
-        if (view.getId() == R.id.zoomInButton) {
-            mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        }
-        if (view.getId() == R.id.zoomOutButton) {
-            mMap.animateCamera(CameraUpdateFactory.zoomOut());
-        }
-    }
-
-
     private void setUpMapIfNeeded() {
         if (mMap == null) {
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -445,10 +435,14 @@ public class MapsActivity extends ActionBarActivity {
 
         LatLng myLoc = new LatLng(latitude, longitude);
 
+        //mMap.getMyLocation();
+
         //ustawia przy wlaczeniu aplikacji na punkt w ktorym jestesmy
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
 
-        //addMarkers();
+        //właczenie zoom
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
     }
 
     @Override
