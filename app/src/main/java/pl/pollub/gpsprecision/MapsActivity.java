@@ -1,8 +1,11 @@
 package pl.pollub.gpsprecision;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -40,13 +43,14 @@ import java.util.List;
 import java.util.Locale;
 
 public class MapsActivity extends ActionBarActivity {
+    private final Context context;
     public DatabaseHelper database;
     public ArrayList<Marker> markerList;
     View rootView;
     GPSTracker gps;
     NetworkTracker network;
     InternetTracker internet;
-    CustomLocationManager customLocation;
+    CustomLocationManager tracker;
     Button btnShowLocation;
     Button btnShowNetworkLocation;
     Button btnShowInternetLocation;
@@ -56,6 +60,10 @@ public class MapsActivity extends ActionBarActivity {
     private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
     private GoogleApiClient client;
     List<String[]> markersForTest = null;
+
+    public MapsActivity(Context context) {
+        this.context = context;
+    }
 
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -420,29 +428,39 @@ public class MapsActivity extends ActionBarActivity {
         writer.close();
     }
 
+    public boolean isConnected() {
+        ConnectivityManager manager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        if (info != null && info.isConnected()) {
+            return true;
+        } else {
+            return false;
+
+        }
+    }
+
     private void setUpMap() {
-        customLocation = new CustomLocationManager(MapsActivity.this);
+        tracker = new CustomLocationManager(MapsActivity.this);
+
+        mMap.setMyLocationEnabled(true);
 
         double latitude = 0;
         double longitude = 0;
 
-        mMap.setMyLocationEnabled(true);
+        if (tracker.canGetLocation()) {
+            latitude = tracker.getLatitude();
+            longitude = tracker.getLongitude();
 
-        if (customLocation.canGetLocation()) {
-            latitude = customLocation.getLatitude();
-            longitude = customLocation.getLongitude();
+            LatLng myLoc = new LatLng(latitude, longitude);
+
+            //ustawia przy wlaczeniu aplikacji na punkt w ktorym jestesmy
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
+        } else {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.229400, 21.003732), 5));
         }
-
-        LatLng myLoc = new LatLng(latitude, longitude);
-
-        //mMap.getMyLocation();
-
-        //ustawia przy wlaczeniu aplikacji na punkt w ktorym jestesmy
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
 
         //właczenie zoom
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
     }
 
     @Override
