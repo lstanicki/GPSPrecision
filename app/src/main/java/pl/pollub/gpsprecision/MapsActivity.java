@@ -56,6 +56,7 @@ public class MapsActivity extends ActionBarActivity {
     private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
     private GoogleApiClient client;
     List<String[]> markersForTest = null;
+    MarkerOptions mojaWyszukanaPozycja;
 
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +217,26 @@ public class MapsActivity extends ActionBarActivity {
                 }
             }
         });
+
+        // dodawanie markera na dotkniecie mapy
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+
+                mojaWyszukanaPozycja = new MarkerOptions()
+                        .position(latLng)
+                        .title("Moja pozycja zaznaczona")
+                        .snippet(latLng.latitude + ", " + latLng.longitude)
+                        .anchor(0.5f, 0.5f);
+
+                mMap.clear();
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                mMap.addMarker(mojaWyszukanaPozycja);
+            }
+        });
     }
 
     @Override
@@ -283,7 +304,6 @@ public class MapsActivity extends ActionBarActivity {
             case R.id.startTest:
                 Toast.makeText(getApplicationContext(),
                         "Do testu zostanie wybranych 5 puntków w pobliżu Twojej obecnej lokalizacji", Toast.LENGTH_LONG).show();
-                mMap.clear();
                 Toast.makeText(getApplicationContext(),
                         "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
                 updateDistance();
@@ -369,21 +389,10 @@ public class MapsActivity extends ActionBarActivity {
     public void updateDistance() {
         List<MyMarker> markers = database.getAllMarkers();
 
-        gps = new GPSTracker(MapsActivity.this);
-        double latitude = 0;
-        double longitude = 0;
-
-        mMap.setMyLocationEnabled(true);
-
         for (MyMarker marker : markers) {
-            if (gps.canGetLocation()) {
-                latitude = gps.getLatitude();
-                longitude = gps.getLongitude();
-            }
-
             Location currentLocation = new Location("Moja Lokalizacja");
-            currentLocation.setLatitude(latitude);
-            currentLocation.setLongitude(longitude);
+            currentLocation.setLatitude(mojaWyszukanaPozycja.getPosition().latitude);
+            currentLocation.setLongitude(mojaWyszukanaPozycja.getPosition().longitude);
 
             Location markerLoc = new Location("Lokalizacja markera");
             markerLoc.setLatitude(marker.getLatitude());
@@ -395,7 +404,6 @@ public class MapsActivity extends ActionBarActivity {
 
             database.updateMarker(marker);
         }
-
     }
 
     private void saveToCSVFile() throws IOException {
@@ -439,22 +447,26 @@ public class MapsActivity extends ActionBarActivity {
     }
 
     private void setUpMap() {
-        customLocation = new CustomLocationManager(MapsActivity.this);
+        gps = new GPSTracker(MapsActivity.this);
 
         double latitude = 0;
         double longitude = 0;
 
-        mMap.setMyLocationEnabled(true);
-
-        if (customLocation.canGetLocation()) {
-            latitude = customLocation.getLatitude();
-            longitude = customLocation.getLongitude();
+        if (gps.canGetLocation()) {
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
         }
 
         LatLng myLoc = new LatLng(latitude, longitude);
 
+        if (myLoc != null) {
+            mMap.setMyLocationEnabled(true);
+        }
+
+        LatLng lublinStareMiasto = new LatLng(51.246465, 22.572695);
+
         //ustawia przy wlaczeniu aplikacji na punkt w ktorym jestesmy
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lublinStareMiasto, 11));
 
         //właczenie zoom
         mMap.getUiSettings().setZoomControlsEnabled(true);
