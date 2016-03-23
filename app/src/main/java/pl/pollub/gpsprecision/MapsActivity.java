@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MapsActivity extends ActionBarActivity {
+public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarkerClickListener {
     public DatabaseHelper database;
     public ArrayList<Marker> markerList;
     View rootView;
@@ -56,7 +56,8 @@ public class MapsActivity extends ActionBarActivity {
     private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
     private GoogleApiClient client;
     List<String[]> markersForTest = null;
-    MarkerOptions mojaWyszukanaPozycja;
+    private MarkerOptions longClickMarker;
+    private MarkerOptions shortClickMarker;
 
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,26 +219,50 @@ public class MapsActivity extends ActionBarActivity {
             }
         });
 
-        // dodawanie markera na dotkniecie mapy
+        // dodawanie markera na długie dotkniecie mapy
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
             @Override
             public void onMapLongClick(LatLng latLng) {
 
-                mojaWyszukanaPozycja = new MarkerOptions()
+                longClickMarker = new MarkerOptions()
                         .position(latLng)
-                        .title("Moja pozycja zaznaczona")
+                        .title("Start")
                         .snippet(latLng.latitude + ", " + latLng.longitude)
-                        .anchor(0.5f, 0.5f);
+                        .anchor(0.5f, 0.5f)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
                 mMap.clear();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
-                mMap.addMarker(mojaWyszukanaPozycja);
+                mMap.addMarker(longClickMarker);
+            }
+        });
+
+        // dodawanie markera na krotkie dotkniecie mapy
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                shortClickMarker = new MarkerOptions()
+                        .position(latLng)
+                        .title("Marker do badania")
+                        .snippet(latLng.latitude + ", " + latLng.longitude)
+                        .anchor(0.5f, 0.5f)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                //mMap.addMarker(shortClickMarker);
+
+                updateShortDistance();
             }
         });
     }
+    
+    
 
     @Override
     protected void onResume() {
@@ -286,12 +311,12 @@ public class MapsActivity extends ActionBarActivity {
 
 /*    public void policzOdleglosc() {
         Location markerFromBase = new Location("Lokalizacja z bazy");
-        markerFromBase.setLatitude(51.253442);
-        markerFromBase.setLongitude(22.577924);
+        markerFromBase.setLatitude(51.270206);
+        markerFromBase.setLongitude(22.569153);
 
         Location markerFromTest = new Location("Lokalizacja z testu");
-        markerFromTest.setLatitude(51.2533406);
-        markerFromTest.setLongitude(22.5764286);
+        markerFromTest.setLatitude(51.2691139);
+        markerFromTest.setLongitude(22.5690226);
 
         float distanceTo = markerFromBase.distanceTo(markerFromTest);
 
@@ -330,12 +355,12 @@ public class MapsActivity extends ActionBarActivity {
                 finish();
                 System.exit(0);
                 return true;
-            case R.id.action_calculate_distance:
+            /*case R.id.action_calculate_distance:
                 updateDistance();
                 Toast.makeText(getApplicationContext(),
                         "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
                 return true;
-/*            case R.id.action_custom:
+            case R.id.action_custom:
                 policzOdleglosc();
                 return true;*/
             default:
@@ -387,12 +412,12 @@ public class MapsActivity extends ActionBarActivity {
     }
 
     public void updateDistance() {
-        List<MyMarker> markers = database.getAllMarkers();
+        List<MyMarker> allMarkers = database.getAllMarkers();
 
-        for (MyMarker marker : markers) {
+        for (MyMarker marker : allMarkers) {
             Location currentLocation = new Location("Moja Lokalizacja");
-            currentLocation.setLatitude(mojaWyszukanaPozycja.getPosition().latitude);
-            currentLocation.setLongitude(mojaWyszukanaPozycja.getPosition().longitude);
+            currentLocation.setLatitude(longClickMarker.getPosition().latitude);
+            currentLocation.setLongitude(longClickMarker.getPosition().longitude);
 
             Location markerLoc = new Location("Lokalizacja markera");
             markerLoc.setLatitude(marker.getLatitude());
@@ -404,6 +429,29 @@ public class MapsActivity extends ActionBarActivity {
 
             database.updateMarker(marker);
         }
+    }
+
+    public void updateShortDistance() {
+        List<MyMarker> testMarkers = database.getMarkersForTest();
+
+        for (MyMarker marker : testMarkers) {
+            Location currentLocation = new Location("Moja Lokalizacja");
+            currentLocation.setLatitude(shortClickMarker.getPosition().latitude);
+            currentLocation.setLongitude(shortClickMarker.getPosition().longitude);
+
+            Location markerLoc = new Location("Lokalizacja markera");
+            markerLoc.setLatitude(marker.getLatitude());
+            markerLoc.setLongitude(marker.getLongitude());
+
+            float distanceTo = currentLocation.distanceTo(markerLoc);
+
+            marker.setDistanceFrom((int) distanceTo);
+
+            database.updateMarker(marker);
+        }
+
+        Toast.makeText(getApplicationContext(),
+                "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
     }
 
     private void saveToCSVFile() throws IOException {
@@ -518,4 +566,9 @@ public class MapsActivity extends ActionBarActivity {
         super.onPause();
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        return false;
+    }
 }

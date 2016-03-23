@@ -13,14 +13,14 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools">
 
-        <item
+<!--        <item
             android:id="@+id/action_calculate_distance"
             android:orderInCategory="1"
             android:title="Przelicz odległość"
             android:actionProviderClass="android.widget.ShareActionProvider"
             app:showAsAction="never"
             android:icon="@drawable/ic_build_white_36dp">
-        </item>
+        </item>-->
         <item
             android:id="@+id/action_start_test"
             android:orderInCategory="2"
