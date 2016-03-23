@@ -263,6 +263,21 @@ public class MapsActivity extends ActionBarActivity {
         return true;
     }
 
+/*    public void policzOdleglosc() {
+        Location markerFromBase = new Location("Lokalizacja z bazy");
+        markerFromBase.setLatitude(51.253442);
+        markerFromBase.setLongitude(22.577924);
+
+        Location markerFromTest = new Location("Lokalizacja z testu");
+        markerFromTest.setLatitude(51.2533406);
+        markerFromTest.setLongitude(22.5764286);
+
+        float distanceTo = markerFromBase.distanceTo(markerFromTest);
+
+        Toast.makeText(getApplicationContext(), "Odleglosc: " + String.valueOf(distanceTo) + "m", Toast.LENGTH_LONG).show();
+
+    }*/
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.startTest:
@@ -299,6 +314,9 @@ public class MapsActivity extends ActionBarActivity {
                 updateDistance();
                 Toast.makeText(getApplicationContext(),
                         "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_custom:
+                policzOdleglosc();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
