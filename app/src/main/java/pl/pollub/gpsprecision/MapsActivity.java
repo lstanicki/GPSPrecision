@@ -315,9 +315,9 @@ public class MapsActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(),
                         "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.action_custom:
+/*            case R.id.action_custom:
                 policzOdleglosc();
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
