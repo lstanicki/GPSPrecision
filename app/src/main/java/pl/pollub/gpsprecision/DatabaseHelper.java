@@ -32,7 +32,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DISTANCE_FROM + " INTEGER" +
                 " )");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Krzemieniecka 1', '51.254458', '22.579823', NULL)");
-        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Krzemieniecka 11', '51.254244', '22.580248', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Kościół Salezjanów', '51.253442', '22.577924', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Apteka', '51.255619', '22.582567', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'KFC', '51.251711', '22.577230', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Lidl', '51.251402', '22.581424', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Biedronka', '51.255670', '22.580135', NULL)");
@@ -52,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Urząd Pocztowy Lublin 3', '51.256474', '22.583501', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Lubelski Rower Miejski 6920', '51.258212', '22.584171', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Niepubliczny Zakład Opieki Zdrowotnej Farmed Stanisław Podgórski', '51.259268', '22.584627', NULL)");
-        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Kaprys s.c. Bar mleczny', '51.254875', '22.577811', NULL)");
+        db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Kaprys s.c. Bar mleczny', '51.254799', '22.577978', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Brama Grodzka', '51.249603', '22.569845', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Czarcia Łapa', '51.247835', '22.567652', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Urząd Miasta Lublin', '51.247643', '22.565944', NULL)");
