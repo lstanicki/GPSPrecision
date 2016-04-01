@@ -5,7 +5,7 @@ public class MyMarker {
     String _name;
     double _latitude;
     double _longitude;
-    int _distance_from;
+    float _distance_from;
 
     //pusty konstruktor
     public MyMarker(String s, double v1, double v, int i) {
@@ -13,7 +13,7 @@ public class MyMarker {
     }
 
     //konstruktor
-    public MyMarker(int id, String name, double latitude, double longitude,  int distance_from) {
+    public MyMarker(int id, String name, double latitude, double longitude,  float distance_from) {
         this._id = id;
         this._name = name;
         this._latitude =  latitude;
@@ -53,11 +53,11 @@ public class MyMarker {
         this._longitude = longitude;
     }
 
-    public int getDistanceFrom() {
+    public float getDistanceFrom() {
         return _distance_from;
     }
 
-    public void setDistanceFrom(int distance_from) {
+    public void setDistanceFrom(float distance_from) {
         this._distance_from = distance_from;
     }
 

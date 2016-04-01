@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + MARKER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MARKER_NAME + " TEXT, " + MARKER_LATITUDE + " NUMERIC NOT NULL, " + MARKER_LONGITUDE + " NUMERIC NOT NULL, "
-                + DISTANCE_FROM + " INTEGER" +
+                + DISTANCE_FROM + " FLOAT" +
                 " )");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Krzemieniecka 1', '51.254458', '22.579823', NULL)");
         db.execSQL("INSERT INTO GPS_MARKERS VALUES (NULL, 'Kościół Salezjanów', '51.253442', '22.577924', NULL)");
@@ -136,7 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 myMarker.setName(cursor.getString(1));
                 myMarker.setLatitude(cursor.getDouble(2));
                 myMarker.setLongitude(cursor.getDouble(3));
-                myMarker.setDistanceFrom(Integer.parseInt(cursor.getString(4)));
+                myMarker.setDistanceFrom(cursor.getFloat(4));
                 markerList.add(myMarker);
             } while (cursor.moveToNext());
         }
@@ -161,7 +161,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 myMarker.setName(cursor.getString(1));
                 myMarker.setLatitude(cursor.getDouble(2));
                 myMarker.setLongitude(cursor.getDouble(3));
-                myMarker.setDistanceFrom(Integer.parseInt(cursor.getString(4)));
+                myMarker.setDistanceFrom(cursor.getFloat(4));
                 markerList.add(myMarker);
             } while (cursor.moveToNext());
         }

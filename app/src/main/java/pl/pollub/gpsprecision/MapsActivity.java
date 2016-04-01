@@ -1,9 +1,13 @@
 package pl.pollub.gpsprecision;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -33,6 +37,7 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,12 +63,18 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
     List<String[]> markersForTest = null;
     private MarkerOptions longClickMarker;
     private MarkerOptions shortClickMarker;
+    List<ScanResult> ap1List;
+    List<ScanResult> apList;
+    WifiManager wifiManager;
 
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+
+        wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -81,6 +92,10 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
                 if (gps.canGetLocation()) {
                     double latitude = gps.getLatitude();
                     double longitude = gps.getLongitude();
+
+                    apList = wifiManager.getScanResults();
+
+                    //Toast.makeText(getApplicationContext(), "Liczba access pointów: " + apList.size(), Toast.LENGTH_LONG).show();
 
                     if (latitude != 0 && longitude != 0) {
                         Toast.makeText(getApplicationContext(),
@@ -100,13 +115,17 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
 
                             float distanceTo = nearestMarker.distanceTo(locationFromInternet);
 
-                            marker.setDistanceFrom((int) distanceTo);
+                            marker.setDistanceFrom(distanceTo);
+
+                            BigDecimal roundDistance;
+                            roundDistance = round(distanceTo, 2);
 
                             markersForTest.add(new String[]{
                                     "GPS",
                                     String.valueOf(latitude),
                                     String.valueOf(longitude),
-                                    String.valueOf(marker.getDistanceFrom() + "m")
+                                    String.valueOf(roundDistance + " m"),
+                                    String.valueOf(apList.size())
                             });
                         }
                     } else {
@@ -152,11 +171,15 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
 
                             marker.setDistanceFrom((int) distanceTo);
 
+                            BigDecimal roundDistance;
+                            roundDistance = round(distanceTo, 2);
+
                             markersForTest.add(new String[]{
                                     "Sieć",
                                     String.valueOf(latitude),
                                     String.valueOf(longitude),
-                                    String.valueOf(marker.getDistanceFrom() + "m")
+                                    String.valueOf(roundDistance + " m"),
+                                    String.valueOf(apList.size())
                             });
                         }
                     } else {
@@ -202,11 +225,15 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
 
                             marker.setDistanceFrom((int) distanceTo);
 
+                            BigDecimal roundDistance;
+                            roundDistance = round(distanceTo, 2);
+
                             markersForTest.add(new String[]{
                                     "Internet",
                                     String.valueOf(latitude),
                                     String.valueOf(longitude),
-                                    String.valueOf(marker.getDistanceFrom() + "m")
+                                    String.valueOf(roundDistance + " m"),
+                                    String.valueOf(apList.size())
                             });
                         }
                     } else {
@@ -261,8 +288,12 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
             }
         });
     }
-    
-    
+
+    public static BigDecimal round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd;
+    }
 
     @Override
     protected void onResume() {
@@ -477,7 +508,7 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
 
         List<String[]> data = new ArrayList<String[]>();
         List<MyMarker> makrersToCSV = database.getMarkersForTest();
-        data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc", "Odleglosc"});
+        data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc", "Odleglosc", "Ilość punktów dostępu"});
         for (MyMarker myMarker : makrersToCSV) {
             data.add(new String[]{
                     myMarker.getName(),
