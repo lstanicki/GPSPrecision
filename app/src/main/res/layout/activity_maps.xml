@@ -6,7 +6,7 @@
     android:background="@color/White">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@color/Black">
 
@@ -29,7 +29,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="99dp"
+            android:layout_width="88dp"
             android:layout_height="50dp"
             android:padding="5dp"
             android:text="Typ mapy"
@@ -42,7 +42,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="84dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/GPSButton"
@@ -53,7 +53,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="83dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/networkButton"
@@ -64,7 +64,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="95dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/internetButton"
@@ -85,7 +85,7 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="520dp"
+            android:layout_height="match_parent"
             tools:context="com.example.lukasz.gpsprecision.MapsActivity" />
 
     </LinearLayout>
