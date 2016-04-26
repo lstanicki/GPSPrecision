@@ -42,7 +42,6 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
     GPSTracker gps;
     NetworkTracker network;
     InternetTracker internet;
-    CustomLocationManager customLocation;
     Button btnShowLocation;
     Button btnShowNetworkLocation;
     Button btnShowInternetLocation;
