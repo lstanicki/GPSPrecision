@@ -4,38 +4,73 @@
     tools:context="com.example.lukasz.gpsprecision.MapsActivity">
 
     <item
-        android:id="@+id/action_start_test"
-        android:orderInCategory="1"
-        android:title="Badanie dokładności"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_create_white_36dp">
+        android:id="@+id/action_menu"
+        android:title="Menu"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_menu_white_24dp"
+        android:orderInCategory="1">
         <menu xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools">
-            <item
-                android:id="@+id/startTest"
-                android:title="@string/submenu_start_test" />
-            <item
-                android:id="@+id/saveResults"
-                android:title="@string/submenu_save_results" />
+
+<!--        <item
+            android:id="@+id/action_calculate_distance"
+            android:orderInCategory="1"
+            android:title="Przelicz odległość"
+            android:actionProviderClass="android.widget.ShareActionProvider"
+            app:showAsAction="never"
+            android:icon="@drawable/ic_build_white_36dp">
+        </item>-->
+        <item
+            android:id="@+id/action_start_test"
+            android:orderInCategory="2"
+            android:title="Badanie dokładności"
+            android:actionProviderClass="android.widget.ShareActionProvider"
+            app:showAsAction="never"
+            android:icon="@drawable/ic_add_white_36dp">
+            <menu xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools">
+                <item
+                    android:id="@+id/startTest"
+                    android:title="@string/submenu_start_test"
+                    android:icon="@drawable/ic_add_location_white_36dp"/>
+                <item
+                    android:id="@+id/saveResults"
+                    android:title="@string/submenu_save_results"
+                    android:icon="@drawable/ic_save_white_36dp"/>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/action_options"
+            android:orderInCategory="3"
+            android:title="Opcje"
+            app:showAsAction="never"
+            android:icon="@drawable/ic_settings_white_36dp">
+            <menu>
+                <item
+                    android:id="@+id/showAllMarkers"
+                    android:title="@string/submenu_show_all_markers"
+                    android:icon="@drawable/ic_select_all_white_36dp"/>
+                <item
+                    android:id="@+id/clearMap"
+                    android:title="@string/submenu_clear_map"
+                    android:icon="@drawable/ic_clear_all_white_36dp"/>
+                <item
+                    android:id="@+id/closeApp"
+                    android:title="@string/submenu_close_app"
+                    android:icon="@drawable/ic_close_white_36dp"/>
+            </menu>
+        </item>
+<!--            <item
+                android:id="@+id/action_custom"
+                android:orderInCategory="4"
+                android:title="Policz"
+                android:actionProviderClass="android.widget.ShareActionProvider"
+                app:showAsAction="never"
+                android:icon="@drawable/ic_build_white_36dp">
+            </item>-->
         </menu>
     </item>
-    <item
-        android:id="@+id/action_options"
-        android:orderInCategory="2"
-        android:title="Opcje"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_preferences">
-        <menu>
-            <item
-                android:id="@+id/showAllMarkers"
-                android:title="@string/submenu_show_all_markers" />
-            <item
-                android:id="@+id/clearMap"
-                android:title="@string/submenu_clear_map" />
-            <item
-                android:id="@+id/closeApp"
-                android:title="@string/submenu_close_app" />
-        </menu>
-    </item>
+
 </menu>
