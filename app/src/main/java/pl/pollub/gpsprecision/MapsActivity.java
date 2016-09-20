@@ -349,7 +349,7 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
         switch (item.getItemId()) {
             case R.id.startTest:
                 Toast.makeText(getApplicationContext(),
-                        "Do testu zostanie wybranych 5 puntków w pobliżu Twojej obecnej lokalizacji", Toast.LENGTH_LONG).show();
+                        "Do testu zostanie wybranych 5 punktów w pobliżu Twojej obecnej lokalizacji", Toast.LENGTH_LONG).show();
                 Toast.makeText(getApplicationContext(),
                         "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
                 updateDistance();
