@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,6 +23,7 @@ public class GPSTracker extends Service implements LocationListener {
 	boolean canGetLocation = false;
 
 	private Location location;
+	Criteria criteria;
 
 	double latitude;
 	double longitude;
@@ -131,25 +133,27 @@ public class GPSTracker extends Service implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		criteria = new Criteria();
+		locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
 		int lat = (int) (location.getLatitude());
 		int lng = (int) (location.getLongitude());
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Toast.makeText(this, "Disabled provider " + provider,
+		Toast.makeText(this, "Dostawca wyłączony " + provider,
 				Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Toast.makeText(this, "Enabled new provider " + provider,
+		Toast.makeText(this, "Nowy dostawca włączony " + provider,
 				Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Toast.makeText(this, "Status changed " + status,
+		Toast.makeText(this, "Status zmieniony " + status,
 				Toast.LENGTH_SHORT).show();
 	}
 

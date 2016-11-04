@@ -5,9 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.google.android.gms.maps.model.Marker;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,7 +125,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 MyMarker myMarker = new MyMarker("Krzemieniecka 1", 51.254458, 22.579823, 1);
@@ -141,7 +137,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return contact list
         return markerList;
     }
 
@@ -153,7 +148,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 MyMarker myMarker = new MyMarker("Krzemieniecka 1", 51.254458, 22.579823, 1);
@@ -166,7 +160,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return contact list
         return markerList;
     }
 
@@ -180,6 +173,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.update(TABLE_NAME, values, MARKER_ID + " = ?",
                 new String[] { String.valueOf(myMarker.getID())});
     }
-
 
 }

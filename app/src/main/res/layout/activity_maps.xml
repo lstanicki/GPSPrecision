@@ -29,7 +29,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="88dp"
+            android:layout_width="92dp"
             android:layout_height="50dp"
             android:padding="5dp"
             android:text="Typ mapy"
@@ -42,7 +42,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="91dp"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/GPSButton"
@@ -53,7 +53,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="91dp"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/networkButton"
@@ -64,14 +64,14 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="118dp"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/internetButton"
             android:background="@drawable/button_styles"
             android:textColor="@color/White"
             android:drawableLeft="@drawable/ic_network_wifi_white_36dp"
-            android:text="Internet"/>
+            android:text="Sieć (WiFi On)"/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

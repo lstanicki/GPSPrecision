@@ -37,23 +37,18 @@ import java.util.List;
 
 public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarkerClickListener {
     public DatabaseHelper database;
-    public ArrayList<Marker> markerList;
-    View rootView;
-    GPSTracker gps;
-    NetworkTracker network;
-    InternetTracker internet;
-    Button btnShowLocation;
+    GPSTracker gpsTracker;
+    NetworkTracker networkTracker;
+    NetworkTrackerWithInternetConnectivity networkTrackerWithInternetConnectivity;
+    Button btnShowGPSLocation;
     Button btnShowNetworkLocation;
-    Button btnShowInternetLocation;
+    Button btnShowNetworkLocationWithInternetConnectivity;
 
-    double latitude = 0;
-    double longitude = 0;
     private GoogleMap mMap; //musi być null jesli google play serwisy apk nie sa dostepne
     private GoogleApiClient client;
     List<String[]> markersForTest = null;
     private MarkerOptions longClickMarker;
     private MarkerOptions shortClickMarker;
-    List<ScanResult> ap1List;
     List<ScanResult> apList;
     WifiManager wifiManager;
 
@@ -65,23 +60,22 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
 
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         database = new DatabaseHelper(this);
         markersForTest = new ArrayList<String[]>();
 
-        //lokalizacja z gps
-        btnShowLocation = (Button) findViewById(R.id.GPSButton);
-        btnShowLocation.setOnClickListener(new View.OnClickListener() {
+        //lokalizacja z gpsTracker
+        btnShowGPSLocation = (Button) findViewById(R.id.GPSButton);
+        btnShowGPSLocation.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                gps = new GPSTracker(MapsActivity.this);
+                gpsTracker = new GPSTracker(MapsActivity.this);
 
-                if (gps.canGetLocation()) {
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
+                if (gpsTracker.canGetLocation()) {
+                    double latitude = gpsTracker.getLatitude();
+                    double longitude = gpsTracker.getLongitude();
 
                     apList = wifiManager.getScanResults();
 
@@ -99,11 +93,11 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
                             nearestMarker.setLatitude(marker.getLatitude());
                             nearestMarker.setLongitude(marker.getLongitude());
 
-                            Location locationFromInternet = new Location("Lokalizacja z internetu");
-                            locationFromInternet.setLatitude(latitude);
-                            locationFromInternet.setLongitude(longitude);
+                            Location locationFromGPS = new Location("Lokalizacja z GPS");
+                            locationFromGPS.setLatitude(latitude);
+                            locationFromGPS.setLongitude(longitude);
 
-                            float distanceTo = nearestMarker.distanceTo(locationFromInternet);
+                            float distanceTo = nearestMarker.distanceTo(locationFromGPS);
 
                             marker.setDistanceFrom(distanceTo);
 
@@ -123,22 +117,22 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
                     }
 
                 } else {
-                    gps.showGPSAlert();
+                    gpsTracker.showGPSAlert();
                 }
             }
         });
 
-        //lokalizacja z sieci komórkowej
+        //lokalizacja z sieci
         btnShowNetworkLocation = (Button) findViewById(R.id.networkButton);
         btnShowNetworkLocation.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                network = new NetworkTracker(MapsActivity.this);
+                networkTracker = new NetworkTracker(MapsActivity.this);
 
-                if (network.canGetLocation()) {
-                    double latitude = network.getLatitude();
-                    double longitude = network.getLongitude();
+                if (networkTracker.canGetLocation()) {
+                    double latitude = networkTracker.getLatitude();
+                    double longitude = networkTracker.getLongitude();
 
                     if (latitude != 0 && longitude != 0) {
                         Toast.makeText(getApplicationContext(),
@@ -153,11 +147,11 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
                             nearestMarker.setLatitude(marker.getLatitude());
                             nearestMarker.setLongitude(marker.getLongitude());
 
-                            Location locationFromInternet = new Location("Lokalizacja z internetu");
-                            locationFromInternet.setLatitude(latitude);
-                            locationFromInternet.setLongitude(longitude);
+                            Location locationFromNetwork = new Location("Lokalizacja z internetu");
+                            locationFromNetwork.setLatitude(latitude);
+                            locationFromNetwork.setLongitude(longitude);
 
-                            float distanceTo = nearestMarker.distanceTo(locationFromInternet);
+                            float distanceTo = nearestMarker.distanceTo(locationFromNetwork);
 
                             marker.setDistanceFrom((int) distanceTo);
 
@@ -177,22 +171,22 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
                     }
 
                 } else {
-                    network.showNetworkAlert();
+                    networkTracker.showNetworkAlert();
                 }
             }
         });
 
-        //lokalizacja z internetu (mobilny + wifi)
-        btnShowInternetLocation = (Button) findViewById(R.id.internetButton);
-        btnShowInternetLocation.setOnClickListener(new View.OnClickListener() {
+        //lokalizacja z sieci z włączonym dostępem do internetu
+        btnShowNetworkLocationWithInternetConnectivity = (Button) findViewById(R.id.internetButton);
+        btnShowNetworkLocationWithInternetConnectivity.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                internet = new InternetTracker(MapsActivity.this);
+                networkTrackerWithInternetConnectivity = new NetworkTrackerWithInternetConnectivity(MapsActivity.this);
 
-                if (internet.canGetLocation()) {
-                    double latitude = internet.getLatitude();
-                    double longitude = internet.getLongitude();
+                if (networkTrackerWithInternetConnectivity.canGetLocation()) {
+                    double latitude = networkTrackerWithInternetConnectivity.getLatitude();
+                    double longitude = networkTrackerWithInternetConnectivity.getLongitude();
 
                     if (latitude != 0 && longitude != 0) {
                         Toast.makeText(getApplicationContext(),
@@ -207,11 +201,11 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
                             nearestMarker.setLatitude(marker.getLatitude());
                             nearestMarker.setLongitude(marker.getLongitude());
 
-                            Location locationFromInternet = new Location("Lokalizacja z internetu");
-                            locationFromInternet.setLatitude(latitude);
-                            locationFromInternet.setLongitude(longitude);
+                            Location locationFromNetworkWithInternetConnectivity = new Location("Lokalizacja z internetu");
+                            locationFromNetworkWithInternetConnectivity.setLatitude(latitude);
+                            locationFromNetworkWithInternetConnectivity.setLongitude(longitude);
 
-                            float distanceTo = nearestMarker.distanceTo(locationFromInternet);
+                            float distanceTo = nearestMarker.distanceTo(locationFromNetworkWithInternetConnectivity);
 
                             marker.setDistanceFrom((int) distanceTo);
 
@@ -231,7 +225,7 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
                     }
 
                 } else {
-                    internet.showInternetAlert();
+                    networkTrackerWithInternetConnectivity.showInternetAlert();
                 }
             }
         });
@@ -272,8 +266,6 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
-                //mMap.addMarker(shortClickMarker);
-
                 updateShortDistance();
             }
         });
@@ -291,28 +283,6 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
         setUpMapIfNeeded();
     }
 
-/*    public void onSearch(View view) {
-
-        EditText locationTextField = (EditText) findViewById(R.id.locationTextField);
-        String location = locationTextField.getText().toString();
-        List<Address> addressList = null;
-
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Address address = addressList.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Moja pozycja wyszukana"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        }
-    }*/
-
     public void onChangeType(View view) {
         if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
@@ -329,21 +299,6 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-/*    public void policzOdleglosc() {
-        Location markerFromBase = new Location("Lokalizacja z bazy");
-        markerFromBase.setLatitude(51.270206);
-        markerFromBase.setLongitude(22.569153);
-
-        Location markerFromTest = new Location("Lokalizacja z testu");
-        markerFromTest.setLatitude(51.2691139);
-        markerFromTest.setLongitude(22.5690226);
-
-        float distanceTo = markerFromBase.distanceTo(markerFromTest);
-
-        Toast.makeText(getApplicationContext(), "Odleglosc: " + String.valueOf(distanceTo) + "m", Toast.LENGTH_LONG).show();
-
-    }*/
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -376,14 +331,6 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
                 finish();
                 System.exit(0);
                 return true;
-            /*case R.id.action_calculate_distance:
-                updateDistance();
-                Toast.makeText(getApplicationContext(),
-                        "Przeliczanie odległości...", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_custom:
-                policzOdleglosc();
-                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -440,11 +387,11 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
             currentLocation.setLatitude(longClickMarker.getPosition().latitude);
             currentLocation.setLongitude(longClickMarker.getPosition().longitude);
 
-            Location markerLoc = new Location("Lokalizacja markera");
-            markerLoc.setLatitude(marker.getLatitude());
-            markerLoc.setLongitude(marker.getLongitude());
+            Location markerLocation = new Location("Lokalizacja markera");
+            markerLocation.setLatitude(marker.getLatitude());
+            markerLocation.setLongitude(marker.getLongitude());
 
-            float distanceTo = currentLocation.distanceTo(markerLoc);
+            float distanceTo = currentLocation.distanceTo(markerLocation);
 
             marker.setDistanceFrom((int) distanceTo);
 
@@ -460,11 +407,11 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
             currentLocation.setLatitude(shortClickMarker.getPosition().latitude);
             currentLocation.setLongitude(shortClickMarker.getPosition().longitude);
 
-            Location markerLoc = new Location("Lokalizacja markera");
-            markerLoc.setLatitude(marker.getLatitude());
-            markerLoc.setLongitude(marker.getLongitude());
+            Location markerLocation = new Location("Lokalizacja markera");
+            markerLocation.setLatitude(marker.getLatitude());
+            markerLocation.setLongitude(marker.getLongitude());
 
-            float distanceTo = currentLocation.distanceTo(markerLoc);
+            float distanceTo = currentLocation.distanceTo(markerLocation);
 
             marker.setDistanceFrom((int) distanceTo);
 
@@ -494,10 +441,10 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
         }
 
         CSVWriter writer = new CSVWriter(new FileWriter("/storage/emulated/0/GPSPrecision/wyniki_z_" + dateFormat.format(date) + ".csv"), ',');
-        //CSVWriter writer = new CSVWriter(new FileWriter("/storage/extSdCard/GPSPrecision/scores_" + dateFormat.format(date) + ".csv"), ',');
 
         List<String[]> data = new ArrayList<String[]>();
         List<MyMarker> makrersToCSV = database.getMarkersForTest();
+
         data.add(new String[]{"Nazwa Markera", "Szerokosc", "Długosc", "Odleglosc", "Ilość punktów dostępu"});
         for (MyMarker myMarker : makrersToCSV) {
             data.add(new String[]{
@@ -509,21 +456,21 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
         data.add(new String[]{"Pomiary z testu"});
         writer.writeAll(data);
 
-        if(markersForTest != null) {
+        if (markersForTest != null) {
             writer.writeAll(markersForTest);
         }
         writer.close();
     }
 
     private void setUpMap() {
-        gps = new GPSTracker(MapsActivity.this);
+        gpsTracker = new GPSTracker(MapsActivity.this);
 
         double latitude = 0;
         double longitude = 0;
 
-        if (gps.canGetLocation()) {
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
+        if (gpsTracker.canGetLocation()) {
+            latitude = gpsTracker.getLatitude();
+            longitude = gpsTracker.getLongitude();
         }
 
         LatLng myLoc = new LatLng(latitude, longitude);
@@ -545,7 +492,6 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
     public void onStart() {
         super.onStart();
 
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
@@ -565,7 +511,6 @@ public class MapsActivity extends ActionBarActivity implements GoogleMap.OnMarke
     @Override
     public void onStop() {
         super.onStop();
-        //gps.stopUsingGPS();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

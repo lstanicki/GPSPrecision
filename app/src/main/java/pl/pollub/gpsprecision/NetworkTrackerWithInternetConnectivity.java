@@ -17,7 +17,7 @@ import android.provider.Settings;
 import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
-public class InternetTracker extends Service implements LocationListener {
+public class NetworkTrackerWithInternetConnectivity extends Service implements LocationListener {
 	private final Context context;
 
 	boolean isMobileInternetEnabled = false;
@@ -38,7 +38,7 @@ public class InternetTracker extends Service implements LocationListener {
 
 	LocationManager locationManager;
 
-	public InternetTracker(Context context) {
+	public NetworkTrackerWithInternetConnectivity(Context context) {
 		this.context = context;
 		getInternetLocation();
 	}
@@ -89,7 +89,7 @@ public class InternetTracker extends Service implements LocationListener {
 	public void stopUsingGPS() {
 		if (locationManager != null) {
 
-			locationManager.removeUpdates(InternetTracker.this);
+			locationManager.removeUpdates(NetworkTrackerWithInternetConnectivity.this);
 		}
 	}
 
