@@ -133,10 +133,12 @@ public class GPSTracker extends Service implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		criteria = new Criteria();
-		locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-		int lat = (int) (location.getLatitude());
-		int lng = (int) (location.getLongitude());
+		if (location != null) {
+			Toast.makeText(this, "Lokalizacja uległa zmianie ",
+					Toast.LENGTH_SHORT).show();
+			getLatitude();
+			getLongitude();
+		}
 	}
 
 	@Override

@@ -140,12 +140,10 @@ public class NetworkTracker extends Service implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		criteria = new Criteria();
-		locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-		refresh();
-		int lat = (int) (location.getLatitude());
-		int lng = (int) (location.getLongitude());
-
+		if (location != null) {
+			getLatitude();
+			getLongitude();
+		}
 	}
 
 	@Override
